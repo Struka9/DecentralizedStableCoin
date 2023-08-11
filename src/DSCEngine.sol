@@ -92,7 +92,7 @@ contract DSCEngine is ReentrancyGuard {
     uint256 public constant PRECISION = 10e18;
     uint256 public constant LIQUIDATION_THRESHOLD = 50;
     uint256 public constant LIQUIDATION_PRECISION = 100;
-    uint256 public constant MIN_HEALTH_FACTOR = 1e18;
+    uint256 public constant MIN_HEALTH_FACTOR = 10e18;
     uint256 public constant LIQUIDATION_BONUS = 10; // This means a 10% bonus
 
     // Events
@@ -240,9 +240,9 @@ contract DSCEngine is ReentrancyGuard {
     function _healthFactor(address user) private view returns (uint256) {
         (uint256 totalDscMinted, uint256 collateralValueInUsd) = _getAccountInformation(user);
         uint256 collateralValueAdjustedForThreshold =
-            (collateralValueInUsd * LIQUIDATION_THRESHOLD) / LIQUIDATION_PRECISION;
+            (collateralValueInUsd * PRECISION * LIQUIDATION_THRESHOLD) / LIQUIDATION_PRECISION;
         if (totalDscMinted == 0) return type(uint256).max;
-        return (collateralValueAdjustedForThreshold * PRECISION) / totalDscMinted;
+        return (collateralValueAdjustedForThreshold) / totalDscMinted;
     }
 
     function _redeemCollateral(address _from, address _to, address _collateralToken, uint256 _amountOfCollateral)
@@ -319,5 +319,9 @@ contract DSCEngine is ReentrancyGuard {
 
     function getAccountInformation(address _user) external view returns (uint256 dscMinted, uint256 collateralInUsd) {
         (dscMinted, collateralInUsd) = _getAccountInformation(_user);
+    }
+
+    function healthFactor(address user) external view returns (uint256) {
+        return _healthFactor(user);
     }
 }
