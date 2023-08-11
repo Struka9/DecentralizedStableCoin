@@ -7,7 +7,7 @@ import {Script} from "forge-std/Script.sol";
 
 contract HelperConfig is Script {
     int256 public constant BTC_INITIAL_PRICE = 30000e8;
-    int256 public constant ETH_INITIAL_PRICE = 1840e8;
+    int256 public constant ETH_INITIAL_PRICE = 2000e8;
     uint8 public constant DECIMAL_PLACES = 8;
     uint256 public constant DEFAULT_ANVIL_KEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;
 
