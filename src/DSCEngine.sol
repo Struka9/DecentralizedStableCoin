@@ -324,4 +324,8 @@ contract DSCEngine is ReentrancyGuard {
     function healthFactor(address user) external view returns (uint256) {
         return _healthFactor(user);
     }
+
+    function getAllowedCollateral() external view returns (address[] memory) {
+        return s_collateralAddresses;
+    }
 }
