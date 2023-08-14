@@ -50,7 +50,7 @@ contract Handler is Test {
         if (depositedCollateral == 0) {
             return;
         }
-        _amountCollateral = _bind(_amountCollateral, 0.01 ether, depositedCollateral);
+        _amountCollateral = _bind(_amountCollateral, 0, depositedCollateral);
         vm.startPrank(msg.sender);
         engine.redeemCollateral(collateral, _amountCollateral);
         vm.stopPrank();
@@ -63,7 +63,6 @@ contract Handler is Test {
         address sender = usersWithCollateralDeposited[_userSeed % usersWithCollateralDeposited.length];
         _amountDscToMint = _bind(_amountDscToMint, 1, MAX_DEPOSIT_SIZE);
         (uint256 mintedDsc, uint256 collateralValueUsd) = engine.getAccountInformation(sender);
-        mintDscCalled++;
         int256 check = int256(collateralValueUsd / 2) - int256(mintedDsc + _amountDscToMint);
         if (check < 0) {
             return;
@@ -71,6 +70,7 @@ contract Handler is Test {
         vm.startPrank(sender);
         engine.mintDsc(_amountDscToMint);
         vm.stopPrank();
+        mintDscCalled++;
     }
 
     function _getCollateralFromSeed(uint256 _collateralSeed) private view returns (address) {

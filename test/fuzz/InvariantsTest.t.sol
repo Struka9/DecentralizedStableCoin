@@ -51,4 +51,12 @@ contract InvariantsTest is StdInvariant, Test {
 
         assert(wethValue + wbtcValue >= dscSupply);
     }
+
+    function invariant_testGetterFunctionsShouldNotRevert() external view {
+        engine.getAccountCollateral(msg.sender);
+        engine.getAccountInformation(msg.sender);
+        engine.getAllowedCollateral();
+        engine.getDepositedCollateral(msg.sender, weth);
+        engine.getTokenAmountFromUsd(weth, 1 ether);
+    }
 }
